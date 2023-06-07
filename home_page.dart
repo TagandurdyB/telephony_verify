@@ -29,7 +29,7 @@ void _saveToHive(SmsMessage message) async {
   final time = Formater.clock(DateTime.now());
   print("here 4");
 
-  final status = await HttpService.sendPhone(message.address!);
+  final status = await HttpService().sendPhone(message.address!);
   print("here 5");
 
   myBase.add([phone, date, time, status]);
@@ -62,9 +62,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    HttpService().sendPhone("99365168618");
     // HiveService.fillBase();
     //  myBase.add(["+asdassdsd", "12.12.12344", "23:23:45", false]);
-    for (var element in myBase.values) { print("::::::::: $element}");}
+    for (var element in myBase.values) {
+      print("::::::::: $element}");
+    }
     print("sadasdasdasdsssssssssssssssss ${myBase.values.length}");
     initPlatformState();
   }
