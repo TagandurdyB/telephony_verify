@@ -8,6 +8,6 @@ class Formater {
   }
 
   static String clock(DateTime date) {
-    return "${twoDigit(date.hour)}:${twoDigit(date.minute)}:${date.second}";
+    return "${twoDigit(date.hour)}:${twoDigit(date.minute)}:${twoDigit(date.second)}";
   }
 }
