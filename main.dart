@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 import 'home_page.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Wakelock.enable();
   await Hive.initFlutter();
   await Hive.openBox("Auths");
   // await Hive.openBox(Tags.date);

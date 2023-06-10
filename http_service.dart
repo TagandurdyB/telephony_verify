@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 
 class HttpService {
   static Future<bool> sendPhone(String phone) async {
-    
     final url = Uri.parse("http://it.net.tm:8888/activatesms");
     return await http.post(
       url,

@@ -23,7 +23,8 @@ void _saveToHive(SmsMessage message) async {
   final time = Formater.clock(DateTime.now());
   print("here 04");
 
-  final bool status = await HttpService.sendPhone("99365168618");
+  final bool status =
+      await HttpService.sendPhone(Formater.phone(message.address!));
   if (status) {
     print("status ok!");
   } else {
@@ -56,12 +57,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // HiveService.fillBase();
     //  myBase.add(["+asdassdsd", "12.12.12344", "23:23:45", false]);
-    for (var element in myBase.values) {
-      print("::::::::: $element}");
-    }
+    // for (var element in myBase.values) {
+    //   print("::::::::: $element}");
+    // }
 
     print("sadasdasdasdsssssssssssssssss ${myBase.values.length}");
     initPlatformState();
+    refresher();
   }
 
   onMessage(SmsMessage message) async {
@@ -69,13 +71,30 @@ class _HomePageState extends State<HomePage> {
     _saveToHive(message);
   }
 
+  int raund = 0;
+
+  void refresher() {
+    Future.delayed(const Duration(seconds: 5)).then((value) {
+      if (raund < 11) {
+        debugPrint("Refresh");
+        _onRefresh();
+        refresher();
+      } else {
+        raund = 0;
+        debugPrint("Restart");
+        _restart();
+      }
+      raund++;
+    });
+  }
+
   Future<void> initPlatformState() async {
-    final bool status = await HttpService.sendPhone("99365168618");
-    if (status) {
-      print("status ok!");
-    } else {
-      print("status no!");
-    }
+    // final bool status = await HttpService.sendPhone("99365168618");
+    // if (status) {
+    //   print("status ok!");
+    // } else {
+    //   print("status no!");
+    // }
     final bool? result = await telephony.requestPhoneAndSmsPermissions;
 
     if (result != null && result) {
@@ -89,15 +108,20 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
   }
 
+  void _restart() => Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => const HomePage()));
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomePage()));
-          },
-          icon: const Icon(Icons.restart_alt)),
+            onPressed: _restart, icon: const Icon(Icons.restart_alt)),
         centerTitle: true,
         title: const Text('SMS Verificator'),
       ),
