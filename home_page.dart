@@ -60,8 +60,6 @@ class _HomePageState extends State<HomePage> {
     // for (var element in myBase.values) {
     //   print("::::::::: $element}");
     // }
-
-    print("sadasdasdasdsssssssssssssssss ${myBase.values.length}");
     initPlatformState();
     refresher();
   }
@@ -95,6 +93,7 @@ class _HomePageState extends State<HomePage> {
     // } else {
     //   print("status no!");
     // }
+    // HttpService.sendPhone("+99361123016");
     final bool? result = await telephony.requestPhoneAndSmsPermissions;
 
     if (result != null && result) {

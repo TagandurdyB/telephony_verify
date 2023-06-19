@@ -3,15 +3,19 @@ import 'package:http/http.dart' as http;
 
 class HttpService {
   static Future<bool> sendPhone(String phone) async {
-    final url = Uri.parse("http://it.net.tm:8888/activatesms");
-    return await http.post(
+    final url = Uri.parse("http://95.85.126.113:8080/api/v1/account/verify");
+    print("phone:=+$phone");
+    return await http
+        .post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        "Accept": 'application/json',
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        "charset": "utf-8"
       },
-      body: jsonEncode({"phone": phone, "statpass": "x0777y"}),
-    ).then((response) {
+      body: json.encode({"phone": "+$phone", "statpass": "x0777y45Sd"}),
+    )
+        .then((response) {
       // if (response.statusCode == 200) {
       //   return json.decode(response.body)["status"];
       // } else {
@@ -19,15 +23,16 @@ class HttpService {
       //   print("Error! :${response.body} ");
       //   return json.decode(response.body)["status"];
       // }
-      print("here 0");
+      final res = json.decode(response.body);
+      final status = res["status"];
+      print("responser :=$res");
       if (response.statusCode == 200) {
-         print("here 1");
-        print("Success ${json.decode(response.body)["status"]}");
+        print("here 1");
+        print("Success $status");
       } else {
-         print("here 2");
+        print("here 2");
         print("error!!!!!!!!!!!!!!!!!!!");
       }
-      final status = json.decode(response.body)["status"]=="true";
       return status;
     });
   }
