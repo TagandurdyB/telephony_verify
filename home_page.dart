@@ -24,7 +24,8 @@ void _saveToHive(SmsMessage message) async {
   print("here 04");
 
   final bool recover = message.body ==
-      "Recover_arzan_tm:sdaijkrfynvsufamOIJH&*&^TB^*OYVRnasicu389";
+      "RecoverArzanTm";
+      // "Recover_arzan_tm:sdaijkrfynvsufamOIJH&*&^TB^*OYVRnasicu389";
   final bool idSignUp = message.body == "ArzanTm2023";
 
   if (recover || idSignUp) {

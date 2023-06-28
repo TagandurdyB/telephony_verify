@@ -5,6 +5,11 @@ class HttpService {
   static Future<bool> sendPhone(String phone, bool isRecover) async {
     final url = Uri.parse("http://95.85.126.113:8080/api/v1/account/verify");
     print("phone:=+$phone");
+    print("request:=${{
+      "phone": "+$phone",
+      "statpass": "x0777y45Sd",
+      "recover": isRecover
+    }}");
     return await http
         .post(
       url,
