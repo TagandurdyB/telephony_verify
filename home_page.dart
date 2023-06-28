@@ -23,17 +23,23 @@ void _saveToHive(SmsMessage message) async {
   final time = Formater.clock(DateTime.now());
   print("here 04");
 
-  final bool status =
-      await HttpService.sendPhone(Formater.phone(message.address!));
-  if (status) {
-    print("status ok!");
-  } else {
-    print("status no!");
-  }
-  print("here 5");
+  final bool recover = message.body ==
+      "Recover_arzan_tm:sdaijkrfynvsufamOIJH&*&^TB^*OYVRnasicu389";
+  final bool idSignUp = message.body == "ArzanTm2023";
 
-  myBase.add([phone, date, time, status]);
-  print("sdjkasdnas jdhasn d  $phone  $date  $time  $status");
+  if (recover || idSignUp) {
+    final bool status =
+        await HttpService.sendPhone(Formater.phone(message.address!), recover);
+    if (status) {
+      print("status ok!");
+    } else {
+      print("status no!");
+    }
+    print("here 5");
+
+    myBase.add([phone, date, time, status, recover]);
+    print("sdjkasdnas jdhasn d  $phone  $date  $time  $status $recover");
+  }
 }
 
 onBackgroundMessage(SmsMessage message) {
@@ -115,7 +121,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -139,16 +145,21 @@ class _HomePageState extends State<HomePage> {
           itemCount: myBase.values.length,
           itemBuilder: (context, index) {
             final base = myBase.values.toList()[index];
-            return ListTile(
-              leading: Text(base[0]),
-              title: Center(
-                child: Column(children: [Text(base[1]), Text(base[2])]),
-              ),
-              trailing: CircleAvatar(
-                backgroundColor: base[3] ? Colors.green : Colors.red,
-                child: Text(
-                  base[3] ? "OK" : "NO",
-                  style: const TextStyle(color: Colors.white),
+            return Container(
+              color: base[4]
+                  ? const Color.fromARGB(255, 6, 23, 46)
+                  : Colors.transparent,
+              child: ListTile(
+                leading: Text(base[0]),
+                title: Center(
+                  child: Column(children: [Text(base[1]), Text(base[2])]),
+                ),
+                trailing: CircleAvatar(
+                  backgroundColor: base[3] ? Colors.green : Colors.red,
+                  child: Text(
+                    base[3] ? "OK" : "NO",
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             );

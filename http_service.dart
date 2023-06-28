@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  static Future<bool> sendPhone(String phone) async {
+  static Future<bool> sendPhone(String phone, bool isRecover) async {
     final url = Uri.parse("http://95.85.126.113:8080/api/v1/account/verify");
     print("phone:=+$phone");
     return await http
@@ -13,7 +13,8 @@ class HttpService {
         "Accept": "application/json",
         "charset": "utf-8"
       },
-      body: json.encode({"phone": "+$phone", "statpass": "x0777y45Sd"}),
+      body: json.encode(
+          {"phone": "+$phone", "statpass": "x0777y45Sd", "recover": isRecover}),
     )
         .then((response) {
       // if (response.statusCode == 200) {
